@@ -19,7 +19,6 @@ from rest_framework import routers
 from todo import views
 
 router = routers.DefaultRouter()
-router.register(r'todos', views.TodoView, 'todo')
 router.register(r'todoitems', views.TodoListView, 'todoitem')
 router.register(r'todolists', views.TodoItemView, 'todolist')
 

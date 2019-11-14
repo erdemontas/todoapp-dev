@@ -13,8 +13,3 @@ class TodoListSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class TodoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Todo
-        fields = '__all__'
-
