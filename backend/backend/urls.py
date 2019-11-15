@@ -26,5 +26,6 @@ router.register(r'todoitems', views.TodoItemView, 'todoitem')
 urlpatterns = [
         path('admin/', admin.site.urls),
         path('accounts/', include('django.contrib.auth.urls')),         
-        path('api/', include(router.urls))
+        path('api/', include(router.urls)),
+        path('rest-auth/', include('rest_auth.urls'))
 ]               

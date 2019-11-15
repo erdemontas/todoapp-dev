@@ -5,13 +5,14 @@ from rest_framework.response import Response
 from .serializers import *
 from .models import *
 import json
+from django.contrib.auth.decorators import permission_required
 
 
 class TodoItemView(viewsets.ModelViewSet):
     serializer_class = TodoItemSerializer
     queryset = TodoItem.objects.all()
     
-    
+   
     @action(detail=False)
     def show_completed(self, request, pk=None):
         completed_tasks = TodoItem.objects.filter(is_completed=False)
