@@ -27,6 +27,7 @@ class TodoItem(models.Model):
     created_at = models.DateTimeField(default=datetime.now(), null=True, blank=True)
     deadline = models.DateTimeField(default=datetime.now(), null=True, blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    previous_item = models.IntegerField(default=0) # ilk oluşturulan item için id = 0 olur sonrakiler için hep bir öncekini kaydet
 
 
     class Meta:
@@ -36,3 +37,5 @@ class TodoItem(models.Model):
 
     def __str__(self):
             return self.name
+
+

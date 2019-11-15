@@ -4,7 +4,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from .serializers import *
 from .models import *
-#from .filters import *
+import json
+
 
 class TodoItemView(viewsets.ModelViewSet):
     serializer_class = TodoItemSerializer
@@ -16,13 +17,19 @@ class TodoListView(viewsets.ModelViewSet):
 
     @action(detail=False)
     def show_completed(self, request, pk=None):
-        completed_tasks = TodoItem.objects.all().filter(is_completed=False)
-        print(completed_tasks)
-        page = self.paginate_queryset(completed_tasks)
+        completed_tasks = TodoItem.objects.filter(is_completed=False).values()
+        
+        print("*****: {}".format(completed_tasks))
+        # serializer = self.get_serializer(data=completed_tasks)
 
-        if page is not None:
-            serializer = self.get_serializer(completed_tasks, many=True)
-            return Response(serializer.data)
+        # if serializer.is_valid():
+        #     serializer.save()
+        #     return Response({"some_ke":"some_value"})
+        # else:
+        #     return Response(serializer.errors)
+
+        return Response({'status': completed_tasks})
+            
 
     
    
