@@ -11,24 +11,31 @@ class TodoItemView(viewsets.ModelViewSet):
     serializer_class = TodoItemSerializer
     queryset = TodoItem.objects.all()
     
+    
+    @action(detail=False)
+    def show_completed(self, request, pk=None):
+        completed_tasks = TodoItem.objects.filter(is_completed=False)
+        serializer = TodoItemSerializer(completed_tasks, many=True)
+        data= serializer.data
+        return Response(data)
+    
 class TodoListView(viewsets.ModelViewSet):
     serializer_class = TodoListSerializer
     queryset = TodoList.objects.all()
 
-    @action(detail=False)
-    def show_completed(self, request, pk=None):
-        completed_tasks = TodoItem.objects.filter(is_completed=False).values()
+    
         
-        print("*****: {}".format(completed_tasks))
         # serializer = self.get_serializer(data=completed_tasks)
 
         # if serializer.is_valid():
-        #     serializer.save()
+        #     serializer.save()y
         #     return Response({"some_ke":"some_value"})
         # else:
         #     return Response(serializer.errors)
 
-        return Response({'status': completed_tasks})
+        #return Response({'status': completed_tasks})
+
+
             
 
     

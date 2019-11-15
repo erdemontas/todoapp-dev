@@ -20,7 +20,7 @@ class TodoList(models.Model):
 
 class TodoItem(models.Model):
     name = models.CharField(max_length=200, default="blank title")
-    todo_list = models.ForeignKey(TodoList, on_delete=models.CASCADE, null=True)
+    todo_list = models.ForeignKey(TodoList, on_delete=models.CASCADE, null=False)
     description = models.TextField(max_length=200, default="Blank text")
     is_completed = models.BooleanField(default=False)
     completed_at = models.DateTimeField(default=datetime.now(), null=True, blank=True)
@@ -31,8 +31,8 @@ class TodoItem(models.Model):
 
 
     class Meta:
-        verbose_name = "Todo List"
-        verbose_name_plural = "Todo Lists"
+        verbose_name = "Todo Item"
+        verbose_name_plural = "Todo Item"
         ordering = ["created_at", "is_completed","deadline","name" ]
 
     def __str__(self):
