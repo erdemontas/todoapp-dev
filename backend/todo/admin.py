@@ -13,4 +13,4 @@ class TodoListAdmin(admin.ModelAdmin):
     
 
 admin.site.register(TodoItem, TodoItemAdmin)
-#admin.site.register(TodoList, TodoListAdmin)
+admin.site.register(TodoList, TodoListAdmin)

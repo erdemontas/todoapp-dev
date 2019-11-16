@@ -17,15 +17,19 @@ from django.contrib import admin
 from django.urls import path, include 
 from rest_framework import routers
 from todo import views
+from rest_framework_jwt.views import obtain_jwt_token
+
+
 
 router = routers.DefaultRouter()
 router.register(r'todolists', views.TodoListView, 'todolist')
 router.register(r'todoitems', views.TodoItemView, 'todoitem')
 
 
+
 urlpatterns = [
         path('admin/', admin.site.urls),
-        path('accounts/', include('django.contrib.auth.urls')),         
         path('api/', include(router.urls)),
-        path('rest-auth/', include('rest_auth.urls'))
+        path('register/', views.SignupView, name='register'),
+        path('accounts/', include('django.contrib.auth.urls')),
 ]               

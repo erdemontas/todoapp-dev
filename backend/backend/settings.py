@@ -39,9 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'todo',
     'rest_framework',
-    'rest_framework.authtoken',
-    'rest_auth'
-
 ]
 
 MIDDLEWARE = [
@@ -60,9 +57,8 @@ ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
     {
-        'DIRS':[os.path.join(BASE_DIR,'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'backend/templates')],
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -132,3 +128,15 @@ CORS_ORIGIN_WHITELIST= [
 ]
          
 CORS_ORIGIN_ALLOW_ALL = True        
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
