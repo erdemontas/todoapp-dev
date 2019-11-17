@@ -39,10 +39,6 @@ render() {
                 <td>{c.pk}  </td>
                 <td>{c.name}</td>
                 <td>{c.description}</td>
-                <td>
-               
-                
-                </td>
             </tr>)}
             </tbody>
             </table>

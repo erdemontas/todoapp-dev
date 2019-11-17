@@ -18,9 +18,16 @@ from django.urls import path, include
 from rest_framework import routers
 from todo import views
 from rest_framework_jwt.views import obtain_jwt_token
+from django.conf.urls import url
+from rest_framework_swagger.views import get_swagger_view
 
 
 
+schema_view = get_swagger_view(title='Pastebin API')
+
+urlpatterns = [
+    url(r'^$', schema_view)
+]
 router = routers.DefaultRouter()
 router.register(r'todolists', views.TodoListView, 'todolist')
 router.register(r'todoitems', views.TodoItemView, 'todoitem')
@@ -32,4 +39,5 @@ urlpatterns = [
         path('api/', include(router.urls)),
         path('register/', views.SignupView, name='register'),
         path('', include('django.contrib.auth.urls'), name= ''),
+        url(r'^$', schema_view)
 ]               

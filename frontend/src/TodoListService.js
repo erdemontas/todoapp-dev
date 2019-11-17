@@ -30,30 +30,3 @@ export default class TodoListService{
     }
 }
 
-export default class TodoItemService{
-
-    constructor(){}
-
-
-    getTodoItems() {
-        const url = `${API_URL}/api/todoitems/`;
-        console.log(axios.get(url))
-        return axios.get(url).then(response => response.data);
-    }  
-    getTodoItem(pk) {
-        const url = `${API_URL}/api/todoitems/${pk}`;
-        return axios.get(url).then(response => response.data);
-    }
-    deleteTodoItem(customer){
-        const url = `${API_URL}/api/todoitems/${customer.pk}`;
-        return axios.delete(url);
-    }
-    createTodoItem(customer){
-        const url = `${API_URL}/api/todoitems/`;
-        return axios.post(url,customer);
-    }
-    updateTodoItem(customer){
-        const url = `${API_URL}/api/todoitems/${customer.pk}`;
-        return axios.put(url,customer);
-    }
-}
