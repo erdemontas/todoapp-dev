@@ -10,9 +10,11 @@
      this.state = {
        viewCompleted: false,
        activeItem: {
-         title: "",
+         name : "",
          description: "",
-         completed: false
+         is_completed: false,
+         created_at:"",
+         owner:"",
        },
        todoList: []
      };
@@ -22,7 +24,11 @@
    }
    refreshList = () => {
      axios
-       .get("http://localhost:8000/api/todos/")
+       .get("http://localhost:8000/api/todolists")
+       .then((response)=>{
+        console.log(response.data);
+        console.log(response.status);
+       })
        .then(res => this.setState({ todoList: res.data }))
        .catch(err => console.log(err));
    };
@@ -93,17 +99,17 @@
      this.toggle();
      if (item.id) {
        axios
-         .put(`http://localhost:8000/api/todos/${item.id}/`, item)
+         .put(`http://localhost:8000/api/todolists/${item.id}/`, item)
          .then(res => this.refreshList());
        return;
      }
      axios
-       .post("http://localhost:8000/api/todos/", item)
+       .post("http://localhost:8000/api/todolists/", item)
        .then(res => this.refreshList());
    };
    handleDelete = item => {
      axios
-       .delete(`http://localhost:8000/api/todos/${item.id}`)
+       .delete(`http://localhost:8000/api/todolists/${item.id}`)
        .then(res => this.refreshList());
    };
    createItem = () => {

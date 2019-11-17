@@ -1,4 +1,4 @@
-from rest_framework import serializers
+from rest_framework import serializers, permissions
 from .models import *
 from rest_framework_jwt.settings import api_settings
 
@@ -12,12 +12,6 @@ class TodoListSerializer(serializers.ModelSerializer):
     class Meta:
         model = TodoList
         fields = '__all__'
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=User
-        fields = ('username',)
-
 
 class UserSerializerWithToken(serializers.ModelSerializer):
 

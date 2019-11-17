@@ -31,5 +31,5 @@ urlpatterns = [
         path('admin/', admin.site.urls),
         path('api/', include(router.urls)),
         path('register/', views.SignupView, name='register'),
-        path('accounts/', include('django.contrib.auth.urls')),
+        path('accounts/', include('django.contrib.auth.urls'), name= ''),
 ]               

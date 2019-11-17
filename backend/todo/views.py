@@ -15,20 +15,37 @@ from .models import *
 
 class TodoItemView(viewsets.ModelViewSet):
     serializer_class = TodoItemSerializer
-    queryset = TodoItem.objects.all()
-
-    
    
+    
+    def  get_queryset(self):
+         queryset = TodoItem.objects.filter(owner=self.request.user)
+         return queryset
+
     @action(detail=False)
     def show_completed(self, request, pk=None):
-        completed_tasks = TodoItem.objects.filter(is_completed=False)
+        completed_tasks = TodoItem.objects.filter(owner=self.request.user, is_completed=False)
         serializer = TodoItemSerializer(completed_tasks, many=True)
         data= serializer.data
         return Response(data)
     
+    @action(detail=False)
+    def show_expired(self, request, pk=None):
+        expired_tasks = TodoItem.objects.filter(owner=self.request.user, is_completed=False)
+        expired_tasks = expired_tasks.filter(deadline__date= datetime.now())
+        serializer = TodoItemSerializer(expired_tasks, many=True)
+        data= serializer.data
+        return Response(data)
+   
+    def perform_update(self, serializer):
+        serializer.save()
+    
 class TodoListView(viewsets.ModelViewSet):
     serializer_class = TodoListSerializer
     queryset = TodoList.objects.all()
+    
+    def  get_queryset(self):
+         queryset = TodoItem.objects.filter(owner=self.request.user)
+         return queryset
 
 
 def SignupView(request):
@@ -60,10 +77,10 @@ class UserList(APIView):
     method here too, for retrieving a list of all User objects.
     """
 
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = (permissions.AllowAny)
 
     def post(self, request, format=None):
-        serializer = UserSerializerWithToken(data=request.data)
+        serializer = UserSerializerWithToken(data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
