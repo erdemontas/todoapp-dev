@@ -1,152 +1,40 @@
- // frontend/src/App.js
+import  React, { Component } from  'react';
+import { BrowserRouter } from  'react-router-dom'
+import { Route, Link } from  'react-router-dom'
+import  TodoLists  from  './TodoLists'
+import  './App.css';
 
- import React, { Component } from "react";
- import Modal from "./components/Modal";
- import axios from "axios";
 
- class App extends Component {
-   constructor(props) {
-     super(props);
-     this.state = {
-       viewCompleted: false,
-       activeItem: {
-         name : "",
-         description: "",
-         is_completed: false,
-         created_at:"",
-         owner:"",
-       },
-       todoList: []
-     };
-   }
-   componentDidMount() {
-     this.refreshList();
-   }
-   refreshList = () => {
-     axios
-       .get("http://localhost:8000/api/todolists")
-       .then((response)=>{
-        console.log(response.data);
-        console.log(response.status);
-       })
-       .then(res => this.setState({ todoList: res.data }))
-       .catch(err => console.log(err));
-   };
-   displayCompleted = status => {
-     if (status) {
-       return this.setState({ viewCompleted: true });
-     }
-     return this.setState({ viewCompleted: false });
-   };
-   renderTabList = () => {
-     return (
-       <div className="my-5 tab-list">
-         <span
-           onClick={() => this.displayCompleted(true)}
-           className={this.state.viewCompleted ? "active" : ""}
-         >
-           complete
-         </span>
-         <span
-           onClick={() => this.displayCompleted(false)}
-           className={this.state.viewCompleted ? "" : "active"}
-         >
-           Incomplete
-         </span>
-       </div>
-     );
-   };
-   renderItems = () => {
-     const { viewCompleted } = this.state;
-     const newItems = this.state.todoList.filter(
-       item => item.completed === viewCompleted
-     );
-     return newItems.map(item => (
-       <li
-         key={item.id}
-         className="list-group-item d-flex justify-content-between align-items-center"
-       >
-         <span
-           className={`todo-title mr-2 ${
-             this.state.viewCompleted ? "completed-todo" : ""
-           }`}
-           title={item.description}
-         >
-           {item.title}
-         </span>
-         <span>
-           <button
-             onClick={() => this.editItem(item)}
-             className="btn btn-secondary mr-2"
-           >
-             {" "}
-             Edit{" "}
-           </button>
-           <button
-             onClick={() => this.handleDelete(item)}
-             className="btn btn-danger"
-           >
-             Delete{" "}
-           </button>
-         </span>
-       </li>
-     ));
-   };
-   toggle = () => {
-     this.setState({ modal: !this.state.modal });
-   };
-   handleSubmit = item => {
-     this.toggle();
-     if (item.id) {
-       axios
-         .put(`http://localhost:8000/api/todolists/${item.id}/`, item)
-         .then(res => this.refreshList());
-       return;
-     }
-     axios
-       .post("http://localhost:8000/api/todolists/", item)
-       .then(res => this.refreshList());
-   };
-   handleDelete = item => {
-     axios
-       .delete(`http://localhost:8000/api/todolists/${item.id}`)
-       .then(res => this.refreshList());
-   };
-   createItem = () => {
-     const item = { title: "", description: "", completed: false };
-     this.setState({ activeItem: item, modal: !this.state.modal });
-   };
-   editItem = item => {
-     this.setState({ activeItem: item, modal: !this.state.modal });
-   };
-   render() {
-     return (
-       <main className="content">
-         <h1 className="text-white text-uppercase text-center my-4">Todo app</h1>
-         <div className="row ">
-           <div className="col-md-6 col-sm-10 mx-auto p-0">
-             <div className="card p-3">
-               <div className="">
-                 <button onClick={this.createItem} className="btn btn-primary">
-                   Add task
-                 </button>
-               </div>
-               {this.renderTabList()}
-               <ul className="list-group list-group-flush">
-                 {this.renderItems()}
-               </ul>
-             </div>
-           </div>
-         </div>
-         {this.state.modal ? (
-           <Modal
-             activeItem={this.state.activeItem}
-             toggle={this.toggle}
-             onSave={this.handleSubmit}
-           />
-         ) : null}
-       </main>
-     );
-   }
- }
- export default App;
+const  BaseLayout  = () => (
+  <div  className="container-fluid">
+      <nav  className="navbar navbar-expand-lg navbar-light bg-light">
+          <a  className="navbar-brand"  href="#">Django React Demo</a>
+          <button  className="navbar-toggler"  type="button"  data-toggle="collapse"  data-target="#navbarNavAltMarkup"  aria-controls="navbarNavAltMarkup"  aria-expanded="false"  aria-label="Toggle navigation">
+          <span  className="navbar-toggler-icon"></span>
+      </button>
+      <div  className="collapse navbar-collapse"  id="navbarNavAltMarkup">
+          <div  className="navbar-nav">
+              <a  className="nav-item nav-link"  href="/">CUSTOMERS</a>
+              <a  className="nav-item nav-link"  href="/customer">CREATE CUSTOMER</a>
+          </div>
+      </div>
+      </nav>
+      <div  className="content">
+          <Route  path="/"  exact  component={TodoLists}  />
+          
+      </div>
+  </div>
+  )
+
+  
+class  App  extends  Component {
+
+  render() {
+      return (
+      <BrowserRouter>
+          <BaseLayout/>
+      </BrowserRouter>
+      );
+  }
+  }
+  export  default  App;
