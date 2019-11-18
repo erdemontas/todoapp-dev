@@ -15,7 +15,7 @@ from .models import *
 
 class TodoItemView(viewsets.ModelViewSet):
     serializer_class = TodoItemSerializer
-   
+    queryset = TodoList.objects.all()
     
     def  get_queryset(self):
          queryset = TodoItem.objects.filter(owner=self.request.user)
@@ -33,6 +33,13 @@ class TodoItemView(viewsets.ModelViewSet):
         expired_tasks = TodoItem.objects.filter(owner=self.request.user, is_completed=False)
         expired_tasks = expired_tasks.filter(deadline__date= datetime.now())
         serializer = TodoItemSerializer(expired_tasks, many=True)
+        data= serializer.data
+        return Response(data)
+
+    @action(detail=False)
+    def show_active(self, request, pk=None):
+        completed_tasks = TodoItem.objects.filter(owner=self.request.user, is_completed=True)
+        serializer = TodoItemSerializer(completed_tasks, many=True)
         data= serializer.data
         return Response(data)
    
@@ -71,18 +78,18 @@ def current_user(request):
     return Response(serializer.data)
 
 
-# class UserList(APIView):
-#     """
-#     Create a new user. It's called 'UserList' because normally we'd have a get
-#     method here too, for retrieving a list of all User objects.
-#     """
+class UserList(APIView):
+    """
+    Create a new user. It's called 'UserList' because normally we'd have a get
+    method here too, for retrieving a list of all User objects.
+    """
 
-#     permission_classes = (permissions.AllowAny)
+    permission_classes = (permissions.AllowAny)
 
-#     def post(self, request, format=None):
-#         serializer = UserSerializerWithToken(data=request.data, partial=True)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request, format=None):
+        serializer = UserSerializerWithToken(data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

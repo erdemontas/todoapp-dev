@@ -6,10 +6,14 @@ export default class TodoListService{
 
     constructor(){}
 
+    login(){
+        const url = `${API_URL}/accounts/login/`;
+        var credientals= {"username":"erdem.ontas","password":"Erondem740"}
+        return axios.post(url, credientals).then(response => response.data);
+    }
 
     getTodoLists() {
         const url = `${API_URL}/api/todolists/`;
-        console.log(axios.get(url))
         return axios.get(url).then(response => response.data);
     }  
     getTodoList(pk) {

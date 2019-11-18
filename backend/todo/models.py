@@ -23,11 +23,11 @@ class TodoItem(models.Model):
     todo_list = models.ForeignKey(TodoList, on_delete=models.CASCADE, null=False)
     description = models.TextField(max_length=200, default="Blank text")
     is_completed = models.BooleanField(default=False)
-    completed_at = models.DateTimeField(default=datetime.now(), null=True, blank=True)
+    completed_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     deadline = models.DateTimeField(default=datetime.now(), null=True, blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    previous_item = models.IntegerField(default=0)
+
 
 
     class Meta:

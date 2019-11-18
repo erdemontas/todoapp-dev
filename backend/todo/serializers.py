@@ -1,6 +1,5 @@
 from rest_framework import serializers, permissions
 from .models import *
-from rest_framework_jwt.settings import api_settings
 
 
 class TodoItemSerializer(serializers.ModelSerializer):

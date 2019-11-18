@@ -14,6 +14,7 @@ constructor(props) {
 
 componentDidMount() {
     var  self  =  this;
+    todolistService.login()
     todolistService.getTodoLists().then(function (result) {
         console.log(result);
         self.setState({ todolists:  result.data, nextPageURL:  result.nextlink})
@@ -29,8 +30,9 @@ render() {
             <tr>
                 <th>#</th>
                 <th>Name</th>
-                <th>Description</th>
-                <th>Actions</th>
+                <th>Status</th>
+                <th>Created Date</th>
+                <th>Owner</th>
             </tr>
             </thead>
             <tbody>
@@ -38,7 +40,9 @@ render() {
                 <tr  key={c.pk}>
                 <td>{c.pk}  </td>
                 <td>{c.name}</td>
-                <td>{c.description}</td>
+                <td>{c.is_completed}</td>
+                <td>{c.created_at}</td>
+                <td>{c.owner}</td>
             </tr>)}
             </tbody>
             </table>

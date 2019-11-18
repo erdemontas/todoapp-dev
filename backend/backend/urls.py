@@ -23,11 +23,8 @@ from rest_framework_swagger.views import get_swagger_view
 
 
 
-schema_view = get_swagger_view(title='Pastebin API')
+schema_view = get_swagger_view(title='TodoApp API')
 
-urlpatterns = [
-    url(r'^$', schema_view)
-]
 router = routers.DefaultRouter()
 router.register(r'todolists', views.TodoListView, 'todolist')
 router.register(r'todoitems', views.TodoItemView, 'todoitem')
@@ -38,6 +35,7 @@ urlpatterns = [
         path('admin/', admin.site.urls),
         path('api/', include(router.urls)),
         path('register/', views.SignupView, name='register'),
-        path('', include('django.contrib.auth.urls'), name= ''),
-        url(r'^$', schema_view)
+        path('accounts/', include('django.contrib.auth.urls'), name= ''),
+        url(r'^$', schema_view),
+        url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]               
